@@ -1,0 +1,4 @@
+FROM adoptopenjdk/openjdk11:latest
+WORKDIR usr/src
+ADD ./target/newz-netflix-zuul-api-gateway-0.0.1-SNAPSHOT.jar /usr/src/newz-netflix-zuul-api-gateway-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java","-jar","newz-netflix-zuul-api-gateway-0.0.1-SNAPSHOT.jar"]

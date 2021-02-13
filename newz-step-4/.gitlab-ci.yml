@@ -1,0 +1,22 @@
+image: java:11-jdk
+stages:
+  - test
+  - build
+services:
+  - 'mongo:latest'
+variables:
+  MONGO_DATABASE: NewsServiceDB
+  MONGO_PORT: 27017
+  MONGO_HOST: localhost
+  MONGO_URL: mongodb://localhost:27017/NewsServiceDB
+maven-test:
+  image: maven:3-jdk-11
+  stage: test
+  script: "mvn test"
+maven-build:
+  image: maven:3-jdk-11
+  stage: build
+  script: "mvn package -U"
+  artifacts:
+    paths:
+      - target/*.jar

@@ -1,0 +1,67 @@
+# Dockerfile has been added in all micro-services, you need to dockerize all micro-services and add docker-compose.yml file
+version: "3"
+
+services:
+  mysql:
+    image: mysql
+    network_mode: host
+    ports:
+      - 3306:3306
+    container_name: sqlcontainer
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_MY_URL: jdbc:mysql://localhost:3306/bootuser?createDatabaseIfNotExist=true&user=root&password=password
+  
+  mongo:
+    image: mongo:3.4-jessie
+    network_mode: host
+    ports:
+      - 27017:27017
+    container_name: mongocontainer
+    environment:
+      MONGO_URL: mongodb://localhost:27017/ustgbootnew   
+      
+  authservice:
+    image: thrushna9/newz_authservice
+    network_mode: host
+    restart: always
+    container_name: authservicecont
+    depends_on:
+      - mysql
+    ports:
+      - 9091:9091
+   
+  userservice:
+    image: thrushna9/newz_userservice
+    network_mode: host
+    restart: always
+    container_name: userservicecont
+    depends_on:
+      - mongo
+    ports:
+      - 9092:9092   
+  
+  newssourceservice:
+    image: thrushna9/newz_newssourceservice
+    network_mode: host
+    restart: always
+    container_name: newssourceservicecont
+    depends_on:
+      - mongo
+    ports:
+      - 9093:9093  
+    
+  newsservice:
+    image: thrushna9/newz_newsservice
+    network_mode: host
+    restart: always
+    container_name: newsservicecont
+    depends_on:
+      - mongo
+    ports:
+      - 9094:9094 
+    
+    
+    
+    
+    
